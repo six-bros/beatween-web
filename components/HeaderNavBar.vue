@@ -17,7 +17,7 @@
           class="Header-Tab"
         >Beats</nuxt-link>
         <nuxt-link 
-          to="/"
+          to="/mixtapes"
           class="Header-Tab"
         >Mixtapes</nuxt-link>
       </div>
@@ -27,7 +27,7 @@
       class="Header-Section-Right"
     >
       <nuxt-link 
-        to="/"
+        to="/login"
         class="Header-Tab"
       >Login</nuxt-link>
       <nuxt-link 
@@ -111,6 +111,10 @@ export default {
     text-decoration: none;
     color: #bebebe;
     margin-left: 3vw;
+    transition: 0.25s;
+    &:hover {
+      color: black;
+    }
   }
 }
 .forHome {
@@ -122,5 +126,11 @@ export default {
       }
     }
   }
+}
+.nuxt-link-exact-active.nuxt-link-active {
+  color: black;
+}
+.nuxt-link-active {
+  color: black;
 }
 </style>
