@@ -6,24 +6,58 @@
         alt="Image"
       >
       <input 
+        v-model="email"
         placeholder="Email"
         type="text"
       >
       <input 
+        v-model="password"
         placeholder="Password"
         type="password"
       >
-      <el-button 
+      <el-button
         type="success" 
         round
+        @click="login"
       >Login</el-button>
-      <el-button round>Sign Up</el-button>
+      <el-button
+        type="primary" 
+        round
+      >Sign Up</el-button>
     </div>
   </section>
 </template>
 
 <script>
-export default {}
+import axios from 'axios'
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      randomData: {
+        name: 'Test',
+        email: 'test',
+        password: 'test',
+        profileImage: 'testing',
+        privateId: 'test'
+      }
+    }
+  },
+  methods: {
+    login() {
+      const { email, password } = this
+      const userData = {
+        email,
+        password
+      }
+      axios.post('http://10.100.0.22/api/users', this.randomData).then(res => {
+        console.log(res)
+      })
+      // this.$store.dispatch('GET_USER_INFO', userData)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

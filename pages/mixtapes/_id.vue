@@ -1,0 +1,151 @@
+<template>
+  <div>
+    <!-- <upload-modal/> -->
+    <section class="mix-detail-container">
+      <div class="mix-detail-top">
+        <div class="mix-detail-album">IMG</div>
+        <div class="mix-detail-top-right">
+          <div class="mix-detail-tr-content">
+            <div class="mix-detail-tr-playBtn">
+              <el-button 
+                type="primary"
+                @click="playSong" 
+              >{{ isPlayed ? 'Pause' : 'Play' }}</el-button>
+            </div>
+            <div class="mix-detail-tr-songInfo">
+              <h1>The Awesome Mixtape</h1>
+              <p>Startup Weekend Seoul</p>
+            </div>
+            <div class="mix-detail-tr-buttons">
+              <el-button 
+                type="primary"
+                icon="el-icon-download"
+              >Download</el-button>
+              <el-button
+                type="primary"
+                icon="el-icon-upload"
+              >Upload to Collaborate</el-button>
+            </div>
+          </div>
+          <div class="mix-detail-tr-sound">
+            Sound
+            <!-- <audio controls>
+              <source 
+                src="../../static/beat-and-vocals.mp3" 
+                type="audio/mpeg"
+              >
+            </audio> -->
+          </div>
+        </div>
+      </div>
+      <div class="mix-detail-bottom">
+        <div class="mix-detail">
+          <h1>Status</h1>
+        </div>
+        <div class="mix-detail">
+          <h1>Collaboration</h1>
+          <div>
+            No Collaboration Yet
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
+
+<script>
+import UploadModal from '../../components/UploadModal.vue'
+import { fbStorage } from '../../services/fireinit.js'
+export default {
+  components: {
+    UploadModal
+  },
+  data() {
+    return {
+      isPlayed: false
+    }
+  },
+  computed: {
+    currentParam() {
+      return this.$route.params.id
+    }
+  },
+  methods: {
+    async playSong() {
+      let ref = fbStorage.ref().child('beat-and-vocals.mp3')
+      let url = await ref.getDownloadURL()
+      const audioFile = new Audio(url)
+      audioFile.play()
+      this.isPlayed = !this.isPlayed
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+%flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mix-detail-container {
+  padding: 10vh 2vw 4vh 2vw;
+  .mix-detail-top {
+    display: flex;
+    .mix-detail-album {
+      background: black;
+      flex: 1 1 20%;
+      height: 20vw;
+    }
+    .mix-detail-top-right {
+      flex: 1 1 80%;
+      .mix-detail-tr-content {
+        display: flex;
+        height: 50%;
+        .mix-detail-tr-playBtn {
+          @extend %flex-center;
+          flex: 1 1 20%;
+        }
+        .mix-detail-tr-songInfo {
+          @extend %flex-center;
+          flex-direction: column;
+          align-items: flex-start;
+          flex: 1 1 60%;
+        }
+        .mix-detail-tr-buttons {
+          @extend %flex-center;
+          flex: 1 1 20%;
+          flex-direction: column;
+          button {
+            width: 100%;
+          }
+          button + button {
+            margin-left: 0;
+            margin-top: 10%;
+          }
+        }
+      }
+      .mix-detail-tr-sound {
+        padding: 0 7%;
+        height: 50%;
+        /* background: gray; */
+      }
+    }
+  }
+  .mix-detail-bottom {
+    margin-top: 2vh;
+    height: 45vh;
+    display: flex;
+    justify-content: space-between;
+    .mix-detail {
+      padding: 1.5%;
+      width: 49%;
+      border-radius: 2px;
+      border: 1px solid gray;
+      button {
+        width: 10%;
+      }
+    }
+  }
+}
+</style>
