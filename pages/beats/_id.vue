@@ -1,57 +1,82 @@
 <template>
-  <section class="beat-detail-container">
-    <div class="beat-detail-top">
-      <div class="beat-detail-album">IMG</div>
-      <div class="beat-detail-top-right">
-        <div class="beat-detail-tr-content">
-          <div class="beat-detail-tr-playBtn">
-            <el-button 
-              type="primary" 
-            >Play</el-button>
+  <div>
+    <!-- <upload-modal/> -->
+    <section class="beat-detail-container">
+      <div class="beat-detail-top">
+        <div class="beat-detail-album">IMG</div>
+        <div class="beat-detail-top-right">
+          <div class="beat-detail-tr-content">
+            <div class="beat-detail-tr-playBtn">
+              <el-button 
+                type="primary"
+                @click="playSong" 
+              >{{ isPlayed ? 'Pause' : 'Play' }}</el-button>
+            </div>
+            <div class="beat-detail-tr-songInfo">
+              <h1>The Awesome Beat for Rapper</h1>
+              <p>Startup Weekend Seoul</p>
+            </div>
+            <div class="beat-detail-tr-buttons">
+              <el-button 
+                type="primary"
+                icon="el-icon-download"
+              >Download</el-button>
+              <el-button
+                type="primary"
+                icon="el-icon-upload"
+              >Upload to Collaborate</el-button>
+            </div>
           </div>
-          <div class="beat-detail-tr-songInfo">
-            <h1>Title</h1>
-            <p>Author</p>
-          </div>
-          <div class="beat-detail-tr-buttons">
-            <el-button 
-              type="primary"
-              icon="el-icon-download"
-            >Download</el-button>
-            <el-button
-              type="primary"
-              icon="el-icon-upload"
-            >Upload to Collaborate</el-button>
+          <div class="beat-detail-tr-sound">
+            Sound
+            <!-- <audio controls>
+              <source 
+                src="../../static/beat-and-vocals.mp3" 
+                type="audio/mpeg"
+              >
+            </audio> -->
           </div>
         </div>
-        <div class="beat-detail-tr-sound">
-          SoundWave
+      </div>
+      <div class="beat-detail-bottom">
+        <div class="beat-detail">
+          <h1>Status</h1>
+        </div>
+        <div class="beat-detail">
+          <h1>Collaboration</h1>
+          <div>
+            No Collaboration Yet
+          </div>
         </div>
       </div>
-    </div>
-    <div class="beat-detail-bottom">
-      <div class="beat-detail">
-        <h1>Status</h1>
-      </div>
-      <div class="beat-detail">
-        <h1>Collaboration</h1>
-        <div>
-          No Collaboration Yet
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>
 import UploadModal from '../../components/UploadModal.vue'
+import { fbStorage } from '../../services/fireinit.js'
 export default {
   components: {
     UploadModal
   },
+  data() {
+    return {
+      isPlayed: false
+    }
+  },
   computed: {
     currentParam() {
       return this.$route.params.id
+    }
+  },
+  methods: {
+    async playSong() {
+      let ref = fbStorage.ref().child('beat-and-vocals.mp3')
+      let url = await ref.getDownloadURL()
+      const audioFile = new Audio(url)
+      audioFile.play()
+      this.isPlayed = !this.isPlayed
     }
   }
 }
@@ -117,6 +142,9 @@ export default {
       width: 49%;
       border-radius: 2px;
       border: 1px solid gray;
+      button {
+        width: 10%;
+      }
     }
   }
 }
