@@ -20,3 +20,20 @@ $ yarn run generate
 ```
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+
+
+## Ethereum Dependencies
+
+```bash
+# Install Node.js
+$ brew install node
+
+# Install Solidity compiler, v0.4.25
+$ npm install --save solc@0.4.25
+
+# Install Web3.js
+$ npm install --save web3@1.0.0-beta.26
+
+# Install Truffle wallet provider
+$ npm install truffle-hdwallet-provider
+```
