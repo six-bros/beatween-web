@@ -37,7 +37,7 @@ export default {
       password: '',
       randomData: {
         name: 'Test',
-        email: 'test',
+        email: 'testing@testing.com',
         password: 'test',
         profileImage: 'testing',
         privateId: 'test'

@@ -29,12 +29,10 @@
           </div>
           <div class="beat-detail-tr-sound">
             Sound
-            <!-- <audio controls>
-              <source 
-                src="../../static/beat-and-vocals.mp3" 
-                type="audio/mpeg"
-              >
-            </audio> -->
+            <audio
+              :src="audioUrl"
+              controls
+            />
           </div>
         </div>
       </div>
@@ -62,7 +60,8 @@ export default {
   },
   data() {
     return {
-      isPlayed: false
+      isPlayed: false,
+      audioUrl: null
     }
   },
   computed: {
@@ -70,12 +69,16 @@ export default {
       return this.$route.params.id
     }
   },
+  mounted() {
+    this.loadSong()
+  },
   methods: {
-    async playSong() {
+    async loadSong() {
       let ref = fbStorage.ref().child('beat-and-vocals.mp3')
       let url = await ref.getDownloadURL()
-      const audioFile = new Audio(url)
-      audioFile.play()
+      this.audioUrl = url
+    },
+    async playSong() {
       this.isPlayed = !this.isPlayed
     }
   }
