@@ -9,7 +9,7 @@
         <el-col 
           v-for="item in sampleBeatsArray"
           :key="item.index"
-          :id="item.beatId"
+          :id="item.id"
           :span="4"
           class="main-list-item"
         >
@@ -115,12 +115,13 @@ export default {
   },
   methods: {
     selectBlock(e) {
+      console.log(e)
       this.$router.push(`beats/${e.path[1].id}`)
     },
     loadIndexData () {
-      console.log('this')
       axios.get('http://10.100.0.22/api/music/beats', this.randomData).then(res => {
         this.sampleBeatsArray = res.data
+        console.log(this.sampleBeatsArray)
       })
     }
   }

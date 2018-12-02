@@ -9,7 +9,7 @@
         <el-col 
           v-for="item in sampleBeatsArray"
           :key="item.index"
-          :id="item.beatId"
+          :id="item.id"
           :span="4"
           class="main-list-item"
         >
