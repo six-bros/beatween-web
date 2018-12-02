@@ -11,8 +11,8 @@
         <div class="beat-detail-top-right">
           <div class="beat-detail-tr-content">
             <div class="beat-detail-tr-songInfo">
-              <h1>The Awesome Beat for Rapper</h1>
-              <p>Startup Weekend Seoul</p>
+              <h1>{{ getTitle }}</h1>
+              <p>{{ getBeatMakerName }}</p>
               <hr
                 noshadow
                 color="black"
@@ -81,6 +81,12 @@ export default {
     },
     isDisplayed() {
       return this.$store.state.displayModal
+    },
+    getTitle() {
+      return (this.userData) ? this.userData.title : ''
+    },
+    getBeatMakerName() {
+      return (this.userData && this.userData.users[0]) ? this.userData.users[0].name : ''
     }
   },
   mounted() {
@@ -104,6 +110,7 @@ export default {
     loadUserData() {
       axios.get(`http://10.100.0.22/api/music/${this.currentId}`).then(res => {
         this.userData = res.data
+        console.log(this.userData)
       })
     },
     openModal() {
