@@ -42,7 +42,12 @@ export default {
   },
   methods: {
     selectBlock(e) {
-      this.$router.push(`mixtapes/${e.path[1].id}`)
+      let selectedId = e.path[1].id
+      const selectedTrack = this.sampleBeatsArray.filter(
+        item => item.id == selectedId
+      )
+      this.$store.commit('setSelectedTrack', selectedTrack[0])
+      this.$router.push(`mixtapes/${selectedId}`)
     },
     loadIndexData() {
       console.log('this')

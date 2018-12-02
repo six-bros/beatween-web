@@ -3,12 +3,15 @@
     <!-- <upload-modal/> -->
     <section class="mix-detail-container">
       <div class="mix-detail-top">
-        <div class="mix-detail-album">IMG</div>
+        <img
+          :src="currentImage"
+          alt="Image"
+          class="mix-detail-album">
         <div class="mix-detail-top-right">
           <div class="mix-detail-tr-content">
             <div class="mix-detail-tr-songInfo">
-              <h1>The Awesome Beat for Rapper</h1>
-              <p>Startup Weekend Seoul</p>
+              <h1>{{ getTitle }}</h1>
+              <p>{{ getBeatMakerName }}</p>
               <hr
                 noshadow
                 color="black"
@@ -69,11 +72,25 @@ export default {
     },
     currentId() {
       return this.$store.state.selectedTrack.id
+    },
+    currentImage() {
+      return this.$store.state.selectedTrack.albumImage
+    },
+    getTitle() {
+      return (this.userData) ? this.userData.title : ''
+    },
+    getBeatMakerName() {
+      return (this.userData && this.userData.users[0]) ? this.userData.users[0].name : ''
     }
   },
   mounted() {
-    this.loadUserData()
-    console.log(this.currentId)
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      console.log(this.currentId)
+      this.loadUserData()
+      this.loadSong()
+      this.$nuxt.$loading.finish()
+    })
   },
   methods: {
     async loadSong() {
@@ -85,7 +102,7 @@ export default {
       this.isPlayed = !this.isPlayed
     },
     loadUserData() {
-      axios.get('', this.currentId).then(res => {
+      axios.get(`http://10.100.0.22/api/music/${this.currentId}`).then(res => {
         this.userData = res.data
         console.log(this.userData)
       })
