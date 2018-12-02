@@ -34,80 +34,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      sampleBeatsArray: [
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '123245'
-        },
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '124345'
-        },
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '125345'
-        },
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '127345'
-        },
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '12a345'
-        },
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '12s345'
-        },
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '12d345'
-        },
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '12f345'
-        },
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '12q345'
-        },
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '123w45'
-        },
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '12h345'
-        },
-        {
-          title: 'sample',
-          description: 'description',
-          imageUrl: 'image-url',
-          beatId: '1234l5'
-        }
-      ]
+      sampleBeatsArray: []
     }
   },
   mounted() {
@@ -138,7 +65,6 @@ export default {
       margin-bottom: 4vh;
       cursor: pointer;
       .main-list-item-image {
-        background: black;
         height: 15vw;
       }
       .main-list-item-content {
