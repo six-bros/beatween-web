@@ -81,7 +81,8 @@ export default {
         background-size: cover;
       }
       .main-list-item-content {
-        padding-top: 1vh;
+        padding: 1vh 0;
+        font-size: 0.7rem;
       }
     }
     /* .main-list-item + .main-list-item {

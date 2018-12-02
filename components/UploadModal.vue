@@ -21,6 +21,7 @@
           <el-button
             type="success"
             round
+            @click="navigatePage"
           >Submit</el-button>
           <el-button
             type="danger"
@@ -49,6 +50,9 @@ export default {
     },
     closeModal() {
       this.$store.commit('setDisplayModal', false)
+    },
+    navigatePage() {
+      this.$router.push('/mixtapes')
     }
   }
 }

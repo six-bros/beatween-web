@@ -19,10 +19,6 @@
                 type="primary"
                 icon="el-icon-download"
               >Download</el-button>
-              <el-button
-                type="primary"
-                icon="el-icon-upload"
-              >Upload to Collaborate</el-button>
             </div>
           </div>
           <div class="mix-detail-tr-sound">
@@ -69,10 +65,14 @@ export default {
     },
     currentId() {
       return this.$store.state.selectedTrack.id
+    },
+    currentImage() {
+      return this.$store.state.selectedTrack.albumImage
     }
   },
   mounted() {
     this.loadUserData()
+    this.loadSong()
     console.log(this.currentId)
   },
   methods: {
@@ -85,9 +85,8 @@ export default {
       this.isPlayed = !this.isPlayed
     },
     loadUserData() {
-      axios.get('', this.currentId).then(res => {
+      axios.get(`http://10.100.0.22/api/music/${this.currentId}`).then(res => {
         this.userData = res.data
-        console.log(this.userData)
       })
     }
   }

@@ -42,7 +42,12 @@ export default {
   },
   methods: {
     selectBlock(e) {
-      this.$router.push(`mixtapes/${e.path[1].id}`)
+      let selectedId = e.path[1].id
+      const selectedTrack = this.sampleBeatsArray.filter(
+        item => item.id == selectedId
+      )
+      this.$store.commit('setSelectedTrack', selectedTrack[0])
+      this.$router.push(`mixtapes/${selectedId}`)
     },
     loadIndexData() {
       console.log('this')
@@ -68,9 +73,11 @@ export default {
       cursor: pointer;
       .main-list-item-image {
         height: 15vw;
+        background-size: cover;
       }
       .main-list-item-content {
         padding-top: 1vh;
+        font-size: 0.7rem;
       }
     }
     /* .main-list-item + .main-list-item {
