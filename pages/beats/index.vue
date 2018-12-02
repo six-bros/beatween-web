@@ -13,10 +13,11 @@
           :span="4"
           class="main-list-item"
         >
-          <div 
+          <div
+            :style="{ 'background-image': 'url(' +item.albumImage+ ')' }"
             class="main-list-item-image"
             @click="selectBlock"
-          >Bg</div>
+          />
           <div class="main-list-item-content">
             <h2>{{ item.title }}</h2>
             <p>{{ item.description }}</p>
@@ -29,12 +30,13 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
       sampleBeatsArray: [
         {
-          title: 'sample',
+          title: 'sample1',
           description: 'description',
           imageUrl: 'image-url',
           beatId: '123245'
@@ -108,9 +110,18 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.loadIndexData()
+  },
   methods: {
     selectBlock(e) {
       this.$router.push(`beats/${e.path[1].id}`)
+    },
+    loadIndexData () {
+      console.log('this')
+      axios.get('http://10.100.0.22/api/music/beats', this.randomData).then(res => {
+        this.sampleBeatsArray = res.data
+      })
     }
   }
 }
