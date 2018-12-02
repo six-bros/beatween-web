@@ -1,20 +1,22 @@
 <template>
   <div>
-    <!-- <upload-modal/> -->
+    <upload-modal v-if="isDisplayed"/>
     <section class="beat-detail-container">
       <div class="beat-detail-top">
-        <div class="beat-detail-album">IMG</div>
+        <img
+          :src="currentImage"
+          alt="Image"
+          class="beat-detail-album"
+        >
         <div class="beat-detail-top-right">
           <div class="beat-detail-tr-content">
-            <div class="beat-detail-tr-playBtn">
-              <el-button 
-                type="primary"
-                @click="playSong" 
-              >{{ isPlayed ? 'Pause' : 'Play' }}</el-button>
-            </div>
             <div class="beat-detail-tr-songInfo">
               <h1>The Awesome Beat for Rapper</h1>
               <p>Startup Weekend Seoul</p>
+              <hr
+                noshadow
+                color="black"
+              >
             </div>
             <div class="beat-detail-tr-buttons">
               <el-button 
@@ -24,11 +26,11 @@
               <el-button
                 type="primary"
                 icon="el-icon-upload"
+                @click="openModal"
               >Upload to Collaborate</el-button>
             </div>
           </div>
           <div class="beat-detail-tr-sound">
-            Sound
             <audio
               :src="audioUrl"
               controls
@@ -54,6 +56,7 @@
 <script>
 import UploadModal from '../../components/UploadModal.vue'
 import { fbStorage } from '../../services/fireinit.js'
+import axios from 'axios'
 export default {
   components: {
     UploadModal
@@ -61,25 +64,50 @@ export default {
   data() {
     return {
       isPlayed: false,
-      audioUrl: null
+      audioUrl: null,
+      userData: null,
+      loading: false
     }
   },
   computed: {
     currentParam() {
       return this.$route.params.id
+    },
+    currentId() {
+      return this.$store.state.selectedTrack.id
+    },
+    currentImage() {
+      return this.$store.state.selectedTrack.albumImage
+    },
+    isDisplayed() {
+      return this.$store.state.displayModal
     }
   },
   mounted() {
-    this.loadSong()
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      console.log(this.currentId)
+      this.loadUserData()
+      this.loadSong()
+      this.$nuxt.$loading.finish()
+    })
   },
   methods: {
     async loadSong() {
-      let ref = fbStorage.ref().child('beat-and-vocals.mp3')
+      let ref = fbStorage.ref().child('beat.mp3')
       let url = await ref.getDownloadURL()
       this.audioUrl = url
     },
     async playSong() {
       this.isPlayed = !this.isPlayed
+    },
+    loadUserData() {
+      axios.get(`http://10.100.0.22/api/music/${this.currentId}`).then(res => {
+        this.userData = res.data
+      })
+    },
+    openModal() {
+      this.$store.commit('setDisplayModal', true)
     }
   }
 }
@@ -92,7 +120,8 @@ export default {
   align-items: center;
 }
 .beat-detail-container {
-  padding: 10vh 2vw 4vh 2vw;
+  padding: 10vh 0 4vh 0;
+  margin: 0 2vw;
   .beat-detail-top {
     display: flex;
     .beat-detail-album {
@@ -105,31 +134,34 @@ export default {
       .beat-detail-tr-content {
         display: flex;
         height: 50%;
-        .beat-detail-tr-playBtn {
-          @extend %flex-center;
-          flex: 1 1 20%;
-        }
         .beat-detail-tr-songInfo {
           @extend %flex-center;
+          padding-left: 7%;
           flex-direction: column;
           align-items: flex-start;
           flex: 1 1 60%;
+          hr {
+            height: 2%;
+            margin: 3% 0;
+            width: 3vw;
+          }
         }
         .beat-detail-tr-buttons {
           @extend %flex-center;
           flex: 1 1 20%;
           flex-direction: column;
+          margin-right: 7%;
           button {
             width: 100%;
           }
           button + button {
             margin-left: 0;
-            margin-top: 10%;
+            margin-top: 5%;
           }
         }
       }
       .beat-detail-tr-sound {
-        padding: 0 7%;
+        padding: 0 5%;
         height: 50%;
         /* background: gray; */
       }

@@ -94,23 +94,34 @@ export default {
         }
       ]
     }
-  }
+  },
+  transition: 'bounce'
 }
 </script>
 
 <style lang="scss" scoped>
 .main-container {
   .main-landing {
-    background: url('../static/background-cover.jpeg');
-    background-color: rgba(17, 24, 31, 0.5);
-    background-size: cover;
     height: 100vh;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    z-index: 0;
+    background: url('../static/background-cover.jpeg');
+    background-attachment: fixed;
+    background-size: cover;
+    &:before {
+      content: '';
+      position: absolute;
+      background-color: rgba(34, 51, 67, 0.76);
+      height: 100vh;
+      width: 100vw;
+      z-index: 0;
+    }
     .main-landing-content {
       display: flex;
       padding-left: 7.5vw;
+      z-index: 1;
       .main-landing-content-writing {
         margin-left: 2.5vw;
         h1 {

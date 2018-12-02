@@ -62,7 +62,8 @@ export default {
     isHomePage() {
       return this.$route.name === 'index' ? true : false
     }
-  }
+  },
+  transition: 'bounce'
 }
 </script>
 
@@ -129,6 +130,7 @@ export default {
 }
 .nuxt-link-exact-active.nuxt-link-active {
   color: black;
+  font-weight: bold;
 }
 .nuxt-link-active {
   color: black;

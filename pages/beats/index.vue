@@ -37,18 +37,30 @@ export default {
       sampleBeatsArray: []
     }
   },
+  computed: {
+    currentParam() {
+      return this.$route.params.id
+    }
+  },
   mounted() {
     this.loadIndexData()
   },
   methods: {
     selectBlock(e) {
-      this.$router.push(`beats/${e.path[1].id}`)
+      let selectedId = e.path[1].id
+      const selectedTrack = this.sampleBeatsArray.filter(
+        item => item.id == selectedId
+      )
+      this.$store.commit('setSelectedTrack', selectedTrack[0])
+      this.$router.push(`beats/${selectedId}`)
     },
-    loadIndexData () {
-      axios.get('http://10.100.0.22/api/music/beats', this.randomData).then(res => {
-        this.sampleBeatsArray = res.data
-        console.log(this.sampleBeatsArray)
-      })
+    loadIndexData() {
+      axios
+        .get('http://10.100.0.22/api/music/beats', this.randomData)
+        .then(res => {
+          this.sampleBeatsArray = res.data
+          console.log(this.sampleBeatsArray)
+        })
     }
   }
 }
@@ -66,6 +78,7 @@ export default {
       cursor: pointer;
       .main-list-item-image {
         height: 15vw;
+        background-size: cover;
       }
       .main-list-item-content {
         padding-top: 1vh;

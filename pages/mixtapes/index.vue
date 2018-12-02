@@ -44,11 +44,13 @@ export default {
     selectBlock(e) {
       this.$router.push(`mixtapes/${e.path[1].id}`)
     },
-    loadIndexData () {
+    loadIndexData() {
       console.log('this')
-      axios.get('http://10.100.0.22/api/music/mixtapes', this.randomData).then(res => {
-        this.sampleBeatsArray = res.data
-      })
+      axios
+        .get('http://10.100.0.22/api/music/mixtapes', this.randomData)
+        .then(res => {
+          this.sampleBeatsArray = res.data
+        })
     }
   }
 }

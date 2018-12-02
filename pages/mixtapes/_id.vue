@@ -6,15 +6,13 @@
         <div class="mix-detail-album">IMG</div>
         <div class="mix-detail-top-right">
           <div class="mix-detail-tr-content">
-            <div class="mix-detail-tr-playBtn">
-              <el-button 
-                type="primary"
-                @click="playSong" 
-              >{{ isPlayed ? 'Pause' : 'Play' }}</el-button>
-            </div>
             <div class="mix-detail-tr-songInfo">
-              <h1>The Awesome Mixtape</h1>
+              <h1>The Awesome Beat for Rapper</h1>
               <p>Startup Weekend Seoul</p>
+              <hr
+                noshadow
+                color="black"
+              >
             </div>
             <div class="mix-detail-tr-buttons">
               <el-button 
@@ -28,13 +26,10 @@
             </div>
           </div>
           <div class="mix-detail-tr-sound">
-            Sound
-            <!-- <audio controls>
-              <source 
-                src="../../static/beat-and-vocals.mp3" 
-                type="audio/mpeg"
-              >
-            </audio> -->
+            <audio
+              :src="audioUrl"
+              controls
+            />
           </div>
         </div>
       </div>
@@ -56,27 +51,44 @@
 <script>
 import UploadModal from '../../components/UploadModal.vue'
 import { fbStorage } from '../../services/fireinit.js'
+import axios from 'axios'
 export default {
   components: {
     UploadModal
   },
   data() {
     return {
-      isPlayed: false
+      userData: null,
+      isPlayed: false,
+      audioUrl: null
     }
   },
   computed: {
     currentParam() {
       return this.$route.params.id
+    },
+    currentId() {
+      return this.$store.state.selectedTrack.id
     }
   },
+  mounted() {
+    this.loadUserData()
+    console.log(this.currentId)
+  },
   methods: {
-    async playSong() {
-      let ref = fbStorage.ref().child('beat-and-vocals.mp3')
+    async loadSong() {
+      let ref = fbStorage.ref().child('beat.mp3')
       let url = await ref.getDownloadURL()
-      const audioFile = new Audio(url)
-      audioFile.play()
+      this.audioUrl = url
+    },
+    async playSong() {
       this.isPlayed = !this.isPlayed
+    },
+    loadUserData() {
+      axios.get('', this.currentId).then(res => {
+        this.userData = res.data
+        console.log(this.userData)
+      })
     }
   }
 }
@@ -108,25 +120,32 @@ export default {
         }
         .mix-detail-tr-songInfo {
           @extend %flex-center;
+          padding-left: 7%;
           flex-direction: column;
           align-items: flex-start;
           flex: 1 1 60%;
+          hr {
+            height: 2%;
+            margin: 3% 0;
+            width: 3vw;
+          }
         }
         .mix-detail-tr-buttons {
           @extend %flex-center;
           flex: 1 1 20%;
           flex-direction: column;
+          margin-right: 7%;
           button {
             width: 100%;
           }
           button + button {
             margin-left: 0;
-            margin-top: 10%;
+            margin-top: 5%;
           }
         }
       }
       .mix-detail-tr-sound {
-        padding: 0 7%;
+        padding: 0 5%;
         height: 50%;
         /* background: gray; */
       }

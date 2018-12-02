@@ -5,33 +5,20 @@
 // import web3 from '@/ethereum/web3'
 
 export const state = () => ({
-  list: []
+  selectedTrack: null,
+  displayModal: false
 })
 
 export const mutations = {
-  add(state, text) {
-    state.list.push({
-      text: text,
-      done: false
-    })
+  setSelectedTrack(state, payload) {
+    state.selectedTrack = payload
   },
-  remove(state, { todo }) {
-    state.list.splice(state.list.indexOf(todo), 1)
-  },
-  toggle(state, todo) {
-    todo.done = !todo.done
+  setDisplayModal(state, payload) {
+    state.displayModal = payload
   }
 }
-
 export const actions = {
   async GET_USER_INFO({ commit }, payload) {
-    let randomData = {
-      name: 'Test',
-      email: 'test',
-      password: 'test',
-      profileImage: 'testing',
-      privateId: 'test'
-    }
     const inputData = await axios.post(
       'http://10.100.0.22/api/users',
       randomData
