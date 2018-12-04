@@ -126,7 +126,7 @@ export default {
         margin-left: 2.5vw;
         h1 {
           font-size: 2.5rem;
-          color: #f15d59;
+          color: #00ffff;
         }
         hr {
           height: 0.75vh;

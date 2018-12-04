@@ -3,12 +3,15 @@
     <!-- <upload-modal/> -->
     <section class="mix-detail-container">
       <div class="mix-detail-top">
-        <div class="mix-detail-album">IMG</div>
+        <img
+          :src="currentImage"
+          alt="Image"
+          class="mix-detail-album">
         <div class="mix-detail-top-right">
           <div class="mix-detail-tr-content">
             <div class="mix-detail-tr-songInfo">
-              <h1>The Awesome Beat for Rapper</h1>
-              <p>Startup Weekend Seoul</p>
+              <h1>{{ getTitle }}</h1>
+              <p>{{ getBeatMakerName }}</p>
               <hr
                 noshadow
                 color="black"
@@ -32,11 +35,52 @@
       <div class="mix-detail-bottom">
         <div class="mix-detail">
           <h1>Status</h1>
+          <div class="collaboration">
+            <div class="collaboration-item">
+              <img
+                class="icons"
+                src="../../static/clap.png"
+              >
+              <p><b>Clap</b></p>
+              <p>12</p>
+            </div>
+            <div class="collaboration-item">
+              <img 
+                class="icons" 
+                src="../../static/donation.png"
+              >
+              <p><b>Donate</b></p>
+              <p>20</p>
+            </div>
+            <div class="collaboration-item">
+              <img 
+                class="icons" 
+                src="../../static/share.png"
+              >
+              <p><b>Share</b></p>
+              <p>9</p>
+            </div>
+          </div>
         </div>
         <div class="mix-detail">
           <h1>Collaboration</h1>
-          <div>
-            No Collaboration Yet
+          <div class="collaboration">
+            <div class="collaboration-item">
+              <img 
+                class="collaboration-image"
+                src="../../static/beatmaker.jpeg"
+              >
+              <p><b>BeatMaker</b></p>
+              <p>{{ getBeatMakerName }}</p>
+            </div>
+            <div class="collaboration-item">
+              <img 
+                class="collaboration-image"
+                src="../../static/rapper.jpeg"
+              >
+              <p><b>Rapper</b></p>
+              <p>Josh Arwind</p>
+            </div>
           </div>
         </div>
       </div>
@@ -68,16 +112,28 @@ export default {
     },
     currentImage() {
       return this.$store.state.selectedTrack.albumImage
+    },
+    getTitle() {
+      return this.userData ? this.userData.title : ''
+    },
+    getBeatMakerName() {
+      return this.userData && this.userData.users[0]
+        ? this.userData.users[0].name
+        : ''
     }
   },
   mounted() {
-    this.loadUserData()
-    this.loadSong()
-    console.log(this.currentId)
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+      console.log(this.currentId)
+      this.loadUserData()
+      this.loadSong()
+      this.$nuxt.$loading.finish()
+    })
   },
   methods: {
     async loadSong() {
-      let ref = fbStorage.ref().child('beat.mp3')
+      let ref = fbStorage.ref().child('beat-and-vocals.mp3')
       let url = await ref.getDownloadURL()
       this.audioUrl = url
     },
@@ -160,8 +216,32 @@ export default {
       width: 49%;
       border-radius: 2px;
       border: 1px solid gray;
-      button {
-        width: 10%;
+      .collaboration {
+        display: flex;
+        height: 80%;
+        justify-content: center;
+        align-items: center;
+        .collaboration-item {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          .icons {
+            width: 4vw;
+            margin-bottom: 2vh;
+          }
+        }
+        .collaboration-item + .collaboration-item {
+          margin-left: 5vw;
+        }
+        .collaboration-image {
+          width: 7.5vw;
+          margin-bottom: 1vh;
+          border-radius: 100%;
+        }
+        p {
+          text-align: center;
+        }
       }
     }
   }

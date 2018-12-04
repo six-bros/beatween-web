@@ -31,7 +31,7 @@
         class="Header-Tab"
       >Login</nuxt-link>
       <nuxt-link 
-        to="/"
+        to="/sign-up"
         class="Header-Tab"
       >Sign Up</nuxt-link>
     </div>

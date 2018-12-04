@@ -11,8 +11,8 @@
         <div class="beat-detail-top-right">
           <div class="beat-detail-tr-content">
             <div class="beat-detail-tr-songInfo">
-              <h1>The Awesome Beat for Rapper</h1>
-              <p>Startup Weekend Seoul</p>
+              <h1>{{ getTitle }}</h1>
+              <p>{{ getBeatMakerName }}</p>
               <hr
                 noshadow
                 color="black"
@@ -41,11 +41,45 @@
       <div class="beat-detail-bottom">
         <div class="beat-detail">
           <h1>Status</h1>
+          <div class="collaboration">
+            <div class="collaboration-item">
+              <img
+                class="icons"
+                src="../../static/clap.png"
+              >
+              <p><b>Clap</b></p>
+              <p>20</p>
+            </div>
+            <div class="collaboration-item">
+              <img 
+                class="icons" 
+                src="../../static/donation.png"
+              >
+              <p><b>Donate</b></p>
+              <p>10</p>
+            </div>
+            <div class="collaboration-item">
+              <img 
+                class="icons" 
+                src="../../static/share.png"
+              >
+              <p><b>Share</b></p>
+              <p>3</p>
+            </div>
+          </div>
         </div>
         <div class="beat-detail">
           <h1>Collaboration</h1>
-          <div>
-            No Collaboration Yet
+          <div class="collaboration">
+            <div class="collaboration-item">
+              <img 
+                class="collaboration-image"
+                src="../../static/beatmaker.jpeg"
+              >
+              <p><b>BeatMaker</b></p>
+              <p>{{ getBeatMakerName }}</p>
+              <h3>No Collaboration Yet</h3>
+            </div>
           </div>
         </div>
       </div>
@@ -81,6 +115,14 @@ export default {
     },
     isDisplayed() {
       return this.$store.state.displayModal
+    },
+    getTitle() {
+      return this.userData ? this.userData.title : ''
+    },
+    getBeatMakerName() {
+      return this.userData && this.userData.users[0]
+        ? this.userData.users[0].name
+        : ''
     }
   },
   mounted() {
@@ -104,6 +146,7 @@ export default {
     loadUserData() {
       axios.get(`http://10.100.0.22/api/music/${this.currentId}`).then(res => {
         this.userData = res.data
+        console.log(this.userData)
       })
     },
     openModal() {
@@ -128,6 +171,7 @@ export default {
       background: black;
       flex: 1 1 20%;
       height: 20vw;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     }
     .beat-detail-top-right {
       flex: 1 1 80%;
@@ -152,6 +196,8 @@ export default {
           flex-direction: column;
           margin-right: 7%;
           button {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+              0 1px 2px rgba(0, 0, 0, 0.24);
             width: 100%;
           }
           button + button {
@@ -179,6 +225,37 @@ export default {
       border: 1px solid gray;
       button {
         width: 10%;
+      }
+    }
+    .collaboration {
+      display: flex;
+      height: 80%;
+      justify-content: center;
+      align-items: center;
+      .collaboration-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .icons {
+          width: 4vw;
+          height: 4vw;
+          margin-bottom: 2vh;
+        }
+      }
+      .collaboration-item + .collaboration-item {
+        margin-left: 5vw;
+      }
+      .collaboration-image {
+        width: 7.5vw;
+        margin-bottom: 1vh;
+        border-radius: 100%;
+      }
+      p {
+        text-align: center;
+      }
+      h3 {
+        margin-top: 2.5vh;
       }
     }
   }
