@@ -1,4 +1,4 @@
-# beatcoin
+# Beatween
 
 > A Matching Platform for Rappers and Beat Makers
 
